@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Послуги та види вікон | Вікна Престиж</title>
+    <meta name="description" content="Повний спектр послуг: монтаж, ремонт, заміна вікон. Металопластикові, дерев'яні, алюмінієві вікна.">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪟</text></svg>">
+</head>
+<body>
+    <!-- Preloader (той самий) -->
+    <div class="preloader">
+        <div class="preloader-content">
+            <div class="window-loader">
+                <div class="window-frame">
+                    <div class="window-glass"></div>
+                </div>
+            </div>
+            <p class="loading-text">Вікна Престиж</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo-section">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-window-maximize"></i>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-main">ВІКНА</span>
+                            <span class="logo-sub">ПРЕСТИЖ</span>
+                        </div>
+                    </a>
+                    <div class="logo-tagline">Провідний виробник вікон</div>
+                </div>
+
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Головна</a></li>
+                    <li><a href="services.html" class="nav-link active"><i class="fas fa-th-large"></i> Послуги</a></li>
+                    <li><a href="process.html" class="nav-link"><i class="fas fa-list-ol"></i> Етапи робіт</a></li>
+                    <li><a href="contacts.html" class="nav-link"><i class="fas fa-address-book"></i> Контакти</a></li>
+                    <li><a href="feedback.html" class="nav-link btn-nav"><i class="fas fa-comment-dots"></i> Зворотній зв'язок</a></li>
+                </ul>
+
+                <div class="header-actions">
+                    <a href="tel:+380961234567" class="phone-call">
+                        <i class="fas fa-phone-alt"></i>
+                        <div class="phone-info">
+                            <span class="phone-label">Дзвінок безкоштовно</span>
+                            <span class="phone-number">+38 (096) 123-45-67</span>
+                        </div>
+                    </a>
+                    <button class="btn btn-primary header-btn" onclick="window.location.href='feedback.html'">
+                        <i class="fas fa-calculator"></i> Розрахувати
+                    </button>
+                </div>
+
+                <button class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <h1>Послуги та види вікон</h1>
+                <p>Повний спектр послуг з виробництва, монтажу та обслуговування віконних систем</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Button (Floating) -->
+    <div class="admin-floating-btn" id="adminFloatingBtn">
+        <button class="btn-admin" onclick="window.location.href='admin.html'">
+            <i class="fas fa-user-shield"></i>
+            <span class="admin-btn-text">Адмін</span>
+        </button>
+        <div class="admin-tooltip">
+            <i class="fas fa-lock"></i> Адмін-панель
+        </div>
+    </div>
+
+    <!-- Services -->
+    <section class="services-page">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Наші послуги</h2>
+                <p class="section-subtitle">Від замірів до гарантійного обслуговування</p>
+            </div>
+
+            <div class="services-tabs">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-tab="installation">Монтаж вікон</button>
+                    <button class="tab-btn" data-tab="production">Виробництво вікон</button>
+                    <button class="tab-btn" data-tab="repair">Ремонт та обслуговування</button>
+                    <button class="tab-btn" data-tab="additional">Додаткові послуги</button>
+                </div>
+
+                <div class="tabs-content">
+                    <!-- Installation Tab -->
+                    <div class="tab-pane active" id="installation">
+                        <div class="service-details">
+                            <div class="service-image">
+                                <img src="https://plus.unsplash.com/premium_photo-1668073437337-5734dc7ef812?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Монтаж вікон">
+                            </div>
+                            <div class="service-info">
+                                <h3>Професійний монтаж вікон</h3>
+                                <p>Кваліфікований монтаж металопластикових, дерев'яних та алюмінієвих вікон з дотриманням всіх технологічних норм.</p>
+                                
+                                <div class="service-features-grid">
+                                    <div class="feature">
+                                        <i class="fas fa-check-circle"></i>
+                                        <h4>Демонтаж старих вікон</h4>
+                                        <p>Акуратне видалення старих конструкцій без пошкоджень стін</p>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-check-circle"></i>
+                                        <h4>Підготовка отвору</h4>
+                                        <p>Очищення, вирівнювання, грунтування поверхні</p>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-check-circle"></i>
+                                        <h4>Установка вікон</h4>
+                                        <p>Точне позиціонування, фіксація анкерами</p>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-check-circle"></i>
+                                        <h4>Герметизація</h4>
+                                        <p>Заповнення швів монтажною піною та гідроізоляція</p>
+                                    </div>
+                                </div>
+
+                                <div class="service-pricing">
+                                    <h4>Вартість монтажу:</h4>
+                                    <div class="price-list">
+                                        <div class="price-item">
+                                            <span class="service-name">Стандартне вікно</span>
+                                            <span class="service-price">від 1500 грн</span>
+                                        </div>
+                                        <div class="price-item">
+                                            <span class="service-name">Вікно з підвіконням</span>
+                                            <span class="service-price">від 2200 грн</span>
+                                        </div>
+                                        <div class="price-item">
+                                            <span class="service-name">Панорамне вікно</span>
+                                            <span class="service-price">від 3500 грн</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary btn-xl" onclick="window.location.href='feedback.html'">
+                                    <i class="fas fa-tools"></i> Замовити монтаж
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Production Tab -->
+                    <div class="tab-pane" id="production">
+                        <div class="service-details">
+                            <div class="service-image">
+                                <img src="https://okna-gold.kiev.ua/wp-content/uploads/2020/12/windowsm-proizvodstvo-okon.jpg" alt="Виробництво вікон">
+                            </div>
+                            <div class="service-info">
+                                <h3>Виробництво вікон на замовлення</h3>
+                                <p>Виготовлення віконних конструкцій за індивідуальними розмірами та дизайном.</p>
+                                
+                                <div class="production-types">
+                                    <h4>Типи вікон, які ми виробляємо:</h4>
+                                    <div class="types-grid">
+                                        <div class="type-card">
+                                            <i class="fas fa-cube"></i>
+                                            <h5>Глухі вікна</h5>
+                                            <p>Фіксовані конструкції без відкривання</p>
+                                        </div>
+                                        <div class="type-card">
+                                            <i class="fas fa-expand-alt"></i>
+                                            <h5>Поворотні</h5>
+                                            <p>Відкривання у вертикальній площині</p>
+                                        </div>
+                                        <div class="type-card">
+                                            <i class="fas fa-sync-alt"></i>
+                                            <h5>Поворотно-відкидні</h5>
+                                            <p>Комбіноване відкривання</p>
+                                        </div>
+                                        <div class="type-card">
+                                            <i class="fas fa-sliders-h"></i>
+                                            <h5>Розсувні</h5>
+                                            <p>Відкривання у горизонтальній площині</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Repair Tab -->
+                    <div class="tab-pane" id="repair">
+                        <div class="service-details">
+                            <div class="service-image">
+                                <img src="https://remontvikon.com.ua/image/cache/catalog/nashi-posluhy-660x850.webp" alt="Ремонт вікон">
+                            </div>
+                            <div class="service-info">
+                                <h3>Ремонт та обслуговування вікон</h3>
+                                <p>Повне відновлення функціональності віконних систем будь-якої складності.</p>
+                                
+                                <div class="service-features-grid">
+                                    <div class="feature">
+                                        <i class="fas fa-tools"></i>
+                                        <h4>Регулювання фурнітури</h4>
+                                        <p>Налаштування щільності прилягання, усунення провисань</p>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-exchange-alt"></i>
+                                        <h4>Заміна ущільнювачів</h4>
+                                        <p>Заміна старих, зношених гумових ущільнювачів</p>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-glass"></i>
+                                        <h4>Заміна склопакетів</h4>
+                                        <p>Заміна пошкоджених або запотілих склопакетів</p>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-cogs"></i>
+                                        <h4>Ремонт фурнітури</h4>
+                                        <p>Ремонт або заміна ручок, механізмів, петель</p>
+                                    </div>
+                                </div>
+
+                                <div class="service-pricing">
+                                    <h4>Вартість ремонту:</h4>
+                                    <div class="price-list">
+                                        <div class="price-item">
+                                            <span class="service-name">Регулювання вікна</span>
+                                            <span class="service-price">від 300 грн</span>
+                                        </div>
+                                        <div class="price-item">
+                                            <span class="service-name">Заміна ущільнювача</span>
+                                            <span class="service-price">від 200 грн/п.м.</span>
+                                        </div>
+                                        <div class="price-item">
+                                            <span class="service-name">Заміна ручки</span>
+                                            <span class="service-price">від 250 грн</span>
+                                        </div>
+                                        <div class="price-item">
+                                            <span class="service-name">Заміна склопакету</span>
+                                            <span class="service-price">від 1500 грн</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary btn-xl" onclick="window.location.href='feedback.html?service=repair'">
+                                    <i class="fas fa-wrench"></i> Замовити ремонт
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Tab -->
+                    <div class="tab-pane" id="additional">
+                        <div class="service-details">
+                            <div class="service-image">
+                                <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Додаткові послуги">
+                            </div>
+                            <div class="service-info">
+                                <h3>Додаткові послуги</h3>
+                                <p>Повний комплекс додаткових робіт для створення ідеального віконного отвору.</p>
+                                
+                                <div class="additional-services-grid">
+                                    <div class="additional-service">
+                                        <div class="additional-icon">
+                                            <i class="fas fa-ruler-combined"></i>
+                                        </div>
+                                        <div class="additional-content">
+                                            <h4>Точні заміри</h4>
+                                            <p>Професійні заміри з урахуванням всіх особливостей приміщення</p>
+                                            <span class="additional-price">Безкоштовно</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="additional-service">
+                                        <div class="additional-icon">
+                                            <i class="fas fa-truck"></i>
+                                        </div>
+                                        <div class="additional-content">
+                                            <h4>Доставка та підйом</h4>
+                                            <p>Доставка до дверей та підйом на будь-який поверх</p>
+                                            <span class="additional-price">Від 500 грн</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="additional-service">
+                                        <div class="additional-icon">
+                                            <i class="fas fa-broom"></i>
+                                        </div>
+                                        <div class="additional-content">
+                                            <h4>Прибирання після монтажу</h4>
+                                            <p>Повне прибирання будівельного сміття після робіт</p>
+                                            <span class="additional-price">Від 700 грн</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="additional-service">
+                                        <div class="additional-icon">
+                                            <i class="fas fa-shield-alt"></i>
+                                        </div>
+                                        <div class="additional-content">
+                                            <h4>Розширена гарантія</h4>
+                                            <p>Продовження гарантійного терміну на вікна та монтаж</p>
+                                            <span class="additional-price">Від 1000 грн/рік</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Window Types -->
+    <section class="window-types">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" id="standard">Види вікон</h2>
+                <p class="section-subtitle">Оберіть оптимальне рішення для вашого приміщення</p>
+            </div>
+
+            <div class="types-grid detailed">
+                <!-- Standard Windows -->
+                <div class="type-card detailed" id="standard-window">
+                    <div class="type-header">
+                        <h3>Стандартні вікна</h3>
+                        <span class="type-badge">Економ</span>
+                    </div>
+                    <div class="type-image">
+                        <img src="https://okna.ua/img_all/korsa/double-winged%2011-355x355.jpg" alt="Стандартні вікна">
+                    </div>
+                    <div class="type-specs">
+                        <div class="spec">
+                            <i class="fas fa-layer-group"></i>
+                            <span>3-камерний профіль</span>
+                        </div>
+                        <div class="spec">
+                            <i class="fas fa-square"></i>
+                            <span>Однокамерний стеклопакет</span>
+                        </div>
+                        <div class="spec">
+                            <i class="fas fa-cog"></i>
+                            <span>Базова фурнітура</span>
+                        </div>
+                        <div class="spec">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Гарантія 5 років</span>
+                        </div>
+                    </div>
+                    <div class="type-price">
+                        <span class="price">від 4 500 грн/м²</span>
+                    </div>
+                    <button class="btn btn-secondary btn-block" onclick="window.location.href='feedback.html?type=standard'">
+                        <i class="fas fa-info-circle"></i> Детальніше
+                    </button>
+                </div>
+
+                <!-- Premium Windows -->
+                <div class="type-card detailed featured" id="premium-window">
+                    <div class="type-header">
+                        <h3>Преміум вікна</h3>
+                        <span class="type-badge">Преміум</span>
+                    </div>
+                    <div class="type-image">
+                        <img src="https://luvin.ua/wp-content/uploads/2022/10/LUVIN-RC2-N-435x415.jpg" alt="Преміум вікна">
+                    </div>
+                    <div class="type-specs">
+                        <div class="spec">
+                            <i class="fas fa-layer-group"></i>
+                            <span>5-камерний профіль</span>
+                        </div>
+                        <div class="spec">
+                            <i class="fas fa-square"></i>
+                            <span>Двокамерний стеклопакет</span>
+                        </div>
+                        <div class="spec">
+                            <i class="fas fa-cog"></i>
+                            <span>Німецька фурнітура</span>
+                        </div>
+                        <div class="spec">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Гарантія 10 років</span>
+                        </div>
+                    </div>
+                    <div class="type-price">
+                        <span class="price">від 7 800 грн/м²</span>
+                    </div>
+                    <button class="btn btn-primary btn-block" onclick="window.location.href='feedback.html?type=premium'">
+                        <i class="fas fa-crown"></i> Обрати преміум
+                    </button>
+                </div>
+
+                <!-- Wooden Windows -->
+                <div class="type-card detailed" id="wooden-window">
+                    <div class="type-header">
+                        <h3>Дерев'яні вікна</h3>
+                        <span class="type-badge">Екологія</span>
+                    </div>
+                    <div class="type-image">
+                        <img src="https://perfect-okna.com.ua/wp-content/uploads/2019/10/2704-11-1.png" alt="Дерев'яні вікна">
+                    </div>
+                    <div class="type-specs">
+                        <div class="spec">
+                            <i class="fas fa-tree"></i>
+                            <span>Масив дуба/сосни</span>
+                        </div>
+                        <div class="spec">
+                            <i class="fas fa-paint-brush"></i>
+                            <span>Екологічні лаки</span>
+                        </div>
+                        <div class="spec">
+                            <i class="fas fa-leaf"></i>
+                            <span>Натуральна мікроциркуляція</span>
+                        </div>
+                        <div class="spec">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Гарантія 7 років</span>
+                        </div>
+                    </div>
+                    <div class="type-price">
+                        <span class="price">від 9 500 грн/м²</span>
+                    </div>
+                    <button class="btn btn-secondary btn-block" onclick="window.location.href='feedback.html?type=wooden'">
+                        <i class="fas fa-tree"></i> Детальніше
+                    </button>
+                </div>
+
+                <!-- Aluminum Windows -->
+                <div class="type-card detailed" id="aluminum-window">
+                    <div class="type-header">
+                        <h3>Алюмінієві вікна</h3>
+                        <span class="type-badge">Сучасно</span>
+                    </div>
+                    <div class="type-image">
+                        <img src="https://gloris-group.com/wp-content/uploads/2020/08/remont-alyuminievyh-okon-1-e1489575851924.jpg" alt="Алюмінієві вікна">
+                    </div>
+                    <div class="type-specs">
+                        <div class="spec">
+                            <i class="fas fa-weight"></i>
+                            <span>Легкість та міцність</span>
+                        </div>
+                        <div class="spec">
+                            <i class="fas fa-palette"></i>
+                            <span>Будь-який колір RAL</span>
+                        </div>
+                        <div class="spec">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                            <span>Великі прольоти</span>
+                        </div>
+                        <div class="spec">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Гарантія 15 років</span>
+                        </div>
+                    </div>
+                    <div class="type-price">
+                        <span class="price">від 11 000 грн/м²</span>
+                    </div>
+                    <button class="btn btn-secondary btn-block" onclick="window.location.href='feedback.html?type=aluminum'">
+                        <i class="fas fa-compress-arrows-alt"></i> Детальніше
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Services -->
+    <section class="additional-services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Додаткові послуги</h2>
+                <p class="section-subtitle">Все для повного комфорту вашого вікна</p>
+            </div>
+
+            <div class="services-cards">
+                <div class="service-card-vertical">
+                    <div class="service-icon">
+                        <i class="fas fa-ruler-combined"></i>
+                    </div>
+                    <h3>Безкоштовні заміри</h3>
+                    <p>Точні заміри з урахуванням всіх особливостей приміщення</p>
+                    <ul>
+                        <li>Консультація на місці</li>
+                        <li>Розрахунок вартості</li>
+                        <li>Візуалізація</li>
+                    </ul>
+                </div>
+
+                <div class="service-card-vertical">
+                    <div class="service-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Доставка та підйом</h3>
+                    <p>Доставка до дверей та підйом на будь-який поверх</p>
+                    <ul>
+                        <li>По всій Україні</li>
+                        <li>Страхування вантажу</li>
+                        <li>Підйомне обладнання</li>
+                    </ul>
+                </div>
+
+                <div class="service-card-vertical">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Гарантійне обслуговування</h3>
+                    <p>Повний супровід після встановлення вікон</p>
+                    <ul>
+                        <li>Регулювання фурнітури</li>
+                        <li>Замена ущільнювачів</li>
+                        <li>Сезонне обслуговування</li>
+                    </ul>
+                </div>
+
+                <div class="service-card-vertical">
+                    <div class="service-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Терміновий ремонт</h3>
+                    <p>Усунення несправностей протягом 24 годин</p>
+                    <ul>
+                        <li>Швидкий виїзд</li>
+                        <li>Оригінальні запчастини</li>
+                        <li>Всі види ремонту</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Часті запитання</h2>
+                <p class="section-subtitle">Відповіді на найпопулярніші питання про вікна</p>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Який термін виготовлення вікон?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Стандартний термін виготовлення — 7-14 робочих днів. Для складних конструкцій або нестандартних розмірів — до 21 дня.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Чи можна встановити вікна взимку?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Так, ми використовуємо зимову монтажну піну та спеціальні технології для монтажу при температурі до -10°C.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Яка гарантія на вікна та монтаж?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Гарантія на вікна — від 5 до 15 років залежно від профілю. Гарантія на монтаж — 3 роки.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Чи потрібно дозвіл на встановлення вікон?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Для приватних будинків — ні. Для багатоквартирних будинків може знадобитися погодження з ОСББ або ЖЕКом.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Потрібна консультація?</h2>
+                <p class="cta-subtitle">Наші фахівці допоможуть підібрати оптимальне рішення</p>
+                
+                <div class="cta-buttons">
+                    <button class="btn btn-primary btn-xl" onclick="window.location.href='feedback.html'">
+                        <i class="fas fa-headset"></i> Отримати консультацію
+                    </button>
+                    <a href="tel:+380961234567" class="btn btn-outline btn-xl">
+                        <i class="fas fa-phone-alt"></i> +38 (096) 123-45-67
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (той самий) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="footer-logo">
+                        <i class="fas fa-window-maximize"></i>
+                        <div>
+                            <span class="footer-logo-main">ВІКНА</span>
+                            <span class="footer-logo-sub">ПРЕСТИЖ</span>
+                        </div>
+                    </a>
+                    <p class="footer-about">
+                        Провідний виробник та монтажник металопластикових вікон з 2010 року. 
+                        Якість, надійність та гарантія на всі види робіт.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Навігація</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Головна</a></li>
+                        <li><a href="services.html"><i class="fas fa-chevron-right"></i> Послуги</a></li>
+                        <li><a href="process.html"><i class="fas fa-chevron-right"></i> Етапи робіт</a></li>
+                        <li><a href="contacts.html"><i class="fas fa-chevron-right"></i> Контакти</a></li>
+                        <li><a href="feedback.html"><i class="fas fa-chevron-right"></i> Зворотній зв'язок</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Контакти</h3>
+                    <div class="footer-contacts">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>м. Київ, вул. Хрещатик, 44</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+380961234567">+38 (096) 123-45-67</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:info@vknaprestig.com">info@vknaprestig.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Пн. - Нд.: 8:00 - 20:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Підписка на новини</h3>
+                    <p class="footer-subscribe">Отримуйте акції та корисні поради</p>
+                    <div class="subscribe-form">
+                        <input type="email" placeholder="Ваш email" id="subscribe-email">
+                        <button class="btn btn-primary" onclick="subscribeNewsletter()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    &copy; 2024 Вікна Престиж. Всі права захищені.
+                </div>
+                <div class="footer-legal">
+                    <a href="#">Політика конфіденційності</a>
+                    <a href="#">Договір оферти</a>
+                    <a href="admin.html" class="admin-link"><i class="fas fa-lock"></i> Адмін-панель</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+    <script>
+    // Services page specific scripts
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and panes
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabPanes.forEach(p => p.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding pane
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // FAQ functionality
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                // Toggle active class
+                question.parentElement.classList.toggle('active');
+                
+                // Toggle icon
+                if (question.parentElement.classList.contains('active')) {
+                    icon.style.transform = 'rotate(180deg)';
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                } else {
+                    icon.style.transform = 'rotate(0deg)';
+                    answer.style.maxHeight = '0';
+                }
+            });
+        });
+        
+        // Smooth scroll to window type
+        const hash = window.location. hash;
+        if (hash) {
+            const element = document.querySelector(hash);
+            if (element) {
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 500);
+            }
+        }
+    });
+    </script>
+</body>
+</html>

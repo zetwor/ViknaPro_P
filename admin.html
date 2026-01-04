@@ -1,0 +1,1669 @@
+<?php
+session_start();
+require_once 'config.php';
+
+if (!DEV_MODE) {
+    if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+        header('Location: login.php');
+        exit;
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адмін-панель | Вікна Престиж</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --sidebar-width: 280px;
+            --sidebar-collapsed-width: 80px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: #f1f5f9;
+            color: #334155;
+            line-height: 1.6;
+        }
+        
+        .admin-panel {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+        
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+        
+        .sidebar.collapsed .menu-header span,
+        .sidebar.collapsed .admin-details,
+        .sidebar.collapsed .menu-link span,
+        .sidebar.collapsed .menu-badge,
+        .sidebar.collapsed .btn-block span {
+            display: none;
+        }
+        
+        .sidebar.collapsed .menu-header {
+            justify-content: center;
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .admin-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+        
+        .admin-details h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .admin-role {
+            font-size: 0.875rem;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+        }
+        
+        .sidebar-toggle {
+            background: none;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #64748b;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-toggle:hover {
+            background: #f1f5f9;
+            color: #334155;
+        }
+        
+        .sidebar-menu {
+            flex: 1;
+            padding: 1rem 0;
+            overflow-y: auto;
+        }
+        
+        .menu-section {
+            margin-bottom: 2rem;
+        }
+        
+        .menu-header {
+            padding: 0 1.5rem 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #64748b;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .menu-header i {
+            font-size: 0.875rem;
+        }
+        
+        .menu-section ul {
+            list-style: none;
+            padding: 0.5rem 0;
+        }
+        
+        .menu-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #475569;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            gap: 0.75rem;
+        }
+        
+        .menu-link:hover {
+            background: #f1f5f9;
+            color: #2563eb;
+        }
+        
+        .menu-link.active {
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.1) 0%, rgba(37, 99, 235, 0) 100%);
+            color: #2563eb;
+            border-right: 3px solid #2563eb;
+        }
+        
+        .menu-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.125rem;
+        }
+        
+        .menu-link span {
+            flex: 1;
+        }
+        
+        .menu-badge {
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        .menu-badge.new {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .menu-badge.in-progress {
+            background: #f59e0b;
+            color: white;
+        }
+        
+        .menu-badge.completed {
+            background: #10b981;
+            color: white;
+        }
+        
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            border: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+        
+        .btn-block {
+            width: 100%;
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar.collapsed + .main-content {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+        
+        .top-bar {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+        
+        .top-bar-left h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        
+        .breadcrumb i {
+            font-size: 0.75rem;
+        }
+        
+        .user-btn {
+            background: #f1f5f9;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .user-btn:hover {
+            background: #e2e8f0;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .page-content {
+            padding: 2rem;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .stat-icon.new {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+        
+        .stat-icon.in-progress {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+        
+        .stat-icon.completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+        
+        .stat-icon.total {
+            background: rgba(100, 116, 139, 0.1);
+            color: #64748b;
+        }
+        
+        .stat-value {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: #1e293b;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .chart-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .chart-header h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: #1e293b;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 250px;
+        }
+        
+        .recent-requests {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-header h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: #1e293b;
+        }
+        
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .view-all:hover {
+            text-decoration: underline;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th {
+            background: #f8fafc;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #475569;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.875rem;
+        }
+        
+        .data-table tr:hover {
+            background: #f8fafc;
+        }
+        
+        .service-tag {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .status-new {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+        
+        .status-in_progress {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+        
+        .status-completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-view {
+            color: #64748b;
+        }
+        
+        .btn-view:hover {
+            background: #f1f5f9;
+            color: #3b82f6;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            color: #64748b;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: #f1f5f9;
+            color: #334155;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .request-details-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .detail-section {
+            background: #f8fafc;
+            padding: 1.25rem;
+            border-radius: 8px;
+        }
+        
+        .detail-section h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #334155;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .detail-row {
+            display: flex;
+            margin-bottom: 0.75rem;
+        }
+        
+        .detail-label {
+            width: 140px;
+            font-weight: 500;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        
+        .detail-value {
+            flex: 1;
+            color: #1e293b;
+            font-size: 0.875rem;
+        }
+        
+        .message-content,
+        .notes-content {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-top: 0.5rem;
+        }
+        
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="admin-body">
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="admin-info">
+                    <div class="admin-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="admin-details">
+                        <h3 id="adminName"><?php echo $_SESSION['admin_full_name'] ?? 'Адміністратор'; ?></h3>
+                        <span class="admin-role">Адміністратор</span>
+                    </div>
+                </div>
+                <button class="sidebar-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-header">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Головна</span>
+                    </div>
+                    <ul>
+                        <li><a href="#" class="menu-link active" data-page="dashboard" onclick="loadPage('dashboard')">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Дашборд</span>
+                            <span class="menu-badge" id="newRequestsBadge">0</span>
+                        </a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-header">
+                        <i class="fas fa-inbox"></i>
+                        <span>Заявки</span>
+                    </div>
+                    <ul>
+                        <li><a href="#" class="menu-link" data-page="requests" onclick="loadPage('requests')">
+                            <i class="fas fa-list"></i>
+                            <span>Всі заявки</span>
+                            <span class="menu-badge" id="totalRequestsBadge">0</span>
+                        </a></li>
+                        <li><a href="#" class="menu-link" data-page="new-requests" onclick="loadPage('new-requests')">
+                            <i class="fas fa-star"></i>
+                            <span>Нові</span>
+                            <span class="menu-badge new" id="newBadge">0</span>
+                        </a></li>
+                        <li><a href="#" class="menu-link" data-page="in-progress" onclick="loadPage('in-progress')">
+                            <i class="fas fa-spinner"></i>
+                            <span>В роботі</span>
+                            <span class="menu-badge in-progress" id="inProgressBadge">0</span>
+                        </a></li>
+                        <li><a href="#" class="menu-link" data-page="completed" onclick="loadPage('completed')">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Завершені</span>
+                            <span class="menu-badge completed" id="completedBadge">0</span>
+                        </a></li>
+                    </ul>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-header">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Статистика</span>
+                    </div>
+                    <ul>
+                        <li><a href="#" class="menu-link" data-page="statistics" onclick="loadPage('statistics')">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Статистика</span>
+                        </a></li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="btn btn-secondary btn-block" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> <span>Вийти</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <h1 id="pageTitle">Дашборд</h1>
+                    <div class="breadcrumb">
+                        <span>Головна</span>
+                        <i class="fas fa-chevron-right"></i>
+                        <span id="pageBreadcrumb">Дашборд</span>
+                    </div>
+                </div>
+                
+                <div class="top-bar-right">
+                    <div class="user-dropdown">
+                        <button class="user-btn" onclick="logout()">
+                            <div class="user-avatar">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <span id="userName"><?php echo explode(' ', $_SESSION['admin_full_name'] ?? 'Адмін')[0]; ?></span>
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content" id="pageContent">
+                <!-- Dashboard Page (default) -->
+                <div class="page active" id="dashboardPage">
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon new">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="statNew">0</div>
+                                <div class="stat-label">Нові заявки</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon in-progress">
+                                <i class="fas fa-spinner"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="statInProgress">0</div>
+                                <div class="stat-label">В роботі</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon completed">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="statCompleted">0</div>
+                                <div class="stat-label">Завершені</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon total">
+                                <i class="fas fa-inbox"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="statTotal">0</div>
+                                <div class="stat-label">Всього заявок</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Заявки по дням</h3>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="requestsChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Розподіл по послугах</h3>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="servicesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Requests -->
+                    <div class="recent-requests">
+                        <div class="section-header">
+                            <h3>Останні заявки</h3>
+                            <a href="#" class="view-all" onclick="loadPage('requests')">Переглянути всі</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Ім'я</th>
+                                        <th>Телефон</th>
+                                        <th>Послуга</th>
+                                        <th>Статус</th>
+                                        <th>Дата</th>
+                                        <th>Дії</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentRequestsTable">
+                                    <!-- Data will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Requests Page -->
+                <div class="page" id="requestsPage"></div>
+
+                <!-- Statistics Page -->
+                <div class="page" id="statisticsPage">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <div class="stat-value" id="totalRequestsStat">0</div>
+                                <div class="stat-label">Всього заявок</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <div class="stat-value" id="avgResponseStat">0</div>
+                                <div class="stat-label">Середній час відповіді (год)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <div class="stat-value" id="activeDaysStat">0</div>
+                                <div class="stat-label">Днів активності</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <div class="stat-value" id="uniqueServicesStat">0</div>
+                                <div class="stat-label">Різних послуг</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Статистика за останні 30 днів</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="monthlyStatsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let currentPage = 'dashboard';
+
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('admin_api.php?action=get_dashboard_stats');
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateStats(data.data.overall);
+                    updateRecentRequests(data.data.recent_requests);
+                    createCharts(data.data.chart_data, data.data.by_service);
+                    updateMenuBadges(data.data.overall);
+                }
+            } catch (error) {
+                console.error('Помилка:', error);
+            }
+        }
+
+        function updateStats(stats) {
+            document.getElementById('statNew').textContent = stats.new || 0;
+            document.getElementById('statInProgress').textContent = stats.in_progress || 0;
+            document.getElementById('statCompleted').textContent = stats.completed || 0;
+            document.getElementById('statTotal').textContent = stats.total || 0;
+        }
+
+        function updateMenuBadges(stats) {
+            document.getElementById('newBadge').textContent = stats.new || 0;
+            document.getElementById('inProgressBadge').textContent = stats.in_progress || 0;
+            document.getElementById('completedBadge').textContent = stats.completed || 0;
+            document.getElementById('totalRequestsBadge').textContent = stats.total || 0;
+            document.getElementById('newRequestsBadge').textContent = stats.new || 0;
+        }
+
+        function updateRecentRequests(requests) {
+            const tableBody = document.getElementById('recentRequestsTable');
+            if (!tableBody) return;
+            
+            tableBody.innerHTML = '';
+            
+            requests.forEach(request => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${request.id}</td>
+                    <td>${escapeHtml(request.name)}</td>
+                    <td>${escapeHtml(request.phone)}</td>
+                    <td><span class="service-tag">${getServiceName(request.service)}</span></td>
+                    <td><span class="status-badge status-${request.status}">${getStatusName(request.status)}</span></td>
+                    <td>${formatDate(request.created_at)}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-action btn-view" onclick="viewRequestDetails(${request.id})" title="Переглянути">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        async function displayAllRequests() {
+            try {
+                const response = await fetch('admin_api.php?action=get_requests');
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayRequestsTable(data.data.requests, data.data.pagination);
+                }
+            } catch (error) {
+                console.error('Помилка:', error);
+            }
+        }
+
+        async function displayRequestsByStatus(status) {
+            try {
+                const response = await fetch(`admin_api.php?action=get_requests&status=${status}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayRequestsTable(data.data.requests, data.data.pagination);
+                }
+            } catch (error) {
+                console.error('Помилка:', error);
+            }
+        }
+
+        function displayRequestsTable(requests, pagination) {
+            const pageContent = document.querySelector('.page-content');
+            
+            let container = document.getElementById('requestsPage');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'page';
+                container.id = 'requestsPage';
+                pageContent.appendChild(container);
+            }
+            
+            const status = getStatusFromUrl();
+            const title = status ? `${getStatusName(status)} заявки` : 'Всі заявки';
+            
+            let html = `
+                <div class="requests-container">
+                    <h2>${title}</h2>
+                    <div class="table-controls">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="Пошук за ім'ям, телефоном..." 
+                                   onkeyup="searchRequests(this.value)">
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ім'я</th>
+                                    <th>Телефон</th>
+                                    <th>Послуга</th>
+                                    <th>Статус</th>
+                                    <th>Дата</th>
+                                    <th>Дії</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+            
+            if (requests.length === 0) {
+                html += `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px;">
+                            <i class="fas fa-inbox" style="font-size: 3rem; color: #e2e8f0; margin-bottom: 20px;"></i>
+                            <p style="color: #64748b; font-size: 1.1rem;">Заявок не знайдено</p>
+                        </td>
+                    </tr>
+                `;
+            } else {
+                requests.forEach(request => {
+                    html += `
+                        <tr>
+                            <td>${request.id}</td>
+                            <td>${escapeHtml(request.name)}</td>
+                            <td>${escapeHtml(request.phone)}</td>
+                            <td>${getServiceName(request.service)}</td>
+                            <td><span class="status-badge status-${request.status}">${getStatusName(request.status)}</span></td>
+                            <td>${formatDate(request.created_at)}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-action btn-view" onclick="viewRequestDetails(${request.id})" title="Переглянути">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            html += `
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    ${pagination.total_pages > 1 ? `
+                    <div class="pagination">
+                        <button class="pagination-btn" onclick="changePage(${pagination.page - 1})" ${pagination.page <= 1 ? 'disabled' : ''}>
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        
+                        ${Array.from({length: Math.min(5, pagination.total_pages)}, (_, i) => {
+                            const pageNum = i + 1;
+                            return `
+                            <button class="pagination-btn ${pageNum === pagination.page ? 'active' : ''}" 
+                                    onclick="changePage(${pageNum})">
+                                ${pageNum}
+                            </button>
+                            `;
+                        }).join('')}
+                        
+                        <button class="pagination-btn" onclick="changePage(${pagination.page + 1})" ${pagination.page >= pagination.total_pages ? 'disabled' : ''}>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        
+                        <span class="pagination-info">
+                            Сторінка ${pagination.page} з ${pagination.total_pages}
+                        </span>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        async function viewRequestDetails(requestId) {
+            try {
+                const response = await fetch(`admin_api.php?action=get_request&id=${requestId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    showRequestModal(data.data);
+                }
+            } catch (error) {
+                console.error('Помилка:', error);
+            }
+        }
+
+        function showRequestModal(request) {
+            const modalHTML = `
+                <div class="modal active" id="requestModal">
+                    <div class="modal-content" style="max-width: 700px;">
+                        <div class="modal-header">
+                            <h3>Заявка #${request.id}</h3>
+                            <button class="modal-close" onclick="closeRequestModal()"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="request-details-grid">
+                                <div class="detail-section">
+                                    <h4><i class="fas fa-user"></i> Інформація про клієнта</h4>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Ім'я:</span>
+                                        <span class="detail-value">${escapeHtml(request.name)}</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Телефон:</span>
+                                        <a href="tel:${escapeHtml(request.phone)}" class="detail-value">${escapeHtml(request.phone)}</a>
+                                    </div>
+                                    ${request.email ? `
+                                    <div class="detail-row">
+                                        <span class="detail-label">Email:</span>
+                                        <a href="mailto:${escapeHtml(request.email)}" class="detail-value">${escapeHtml(request.email)}</a>
+                                    </div>
+                                    ` : ''}
+                                </div>
+                                
+                                <div class="detail-section">
+                                    <h4><i class="fas fa-tools"></i> Деталі заявки</h4>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Послуга:</span>
+                                        <span class="detail-value">${getServiceName(request.service)}</span>
+                                    </div>
+                                    ${request.window_type ? `
+                                    <div class="detail-row">
+                                        <span class="detail-label">Тип вікна:</span>
+                                        <span class="detail-value">${getWindowTypeName(request.window_type)}</span>
+                                    </div>
+                                    ` : ''}
+                                    <div class="detail-row">
+                                        <span class="detail-label">Статус:</span>
+                                        <span class="status-badge status-${request.status}">
+                                            ${getStatusName(request.status)}
+                                        </span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Дата створення:</span>
+                                        <span class="detail-value">${formatDate(request.created_at)}</span>
+                                    </div>
+                                    ${request.updated_at !== request.created_at ? `
+                                    <div class="detail-row">
+                                        <span class="detail-label">Дата оновлення:</span>
+                                        <span class="detail-value">${formatDate(request.updated_at)}</span>
+                                    </div>
+                                    ` : ''}
+                                </div>
+                                
+                                ${request.message ? `
+                                <div class="detail-section">
+                                    <h4><i class="fas fa-comment"></i> Повідомлення клієнта</h4>
+                                    <div class="message-content">
+                                        ${escapeHtml(request.message)}
+                                    </div>
+                                </div>
+                                ` : ''}
+                                
+                                ${request.admin_notes ? `
+                                <div class="detail-section">
+                                    <h4><i class="fas fa-sticky-note"></i> Примітки адміністратора</h4>
+                                    <div class="notes-content">
+                                        ${escapeHtml(request.admin_notes)}
+                                    </div>
+                                </div>
+                                ` : ''}
+                                
+                                <div class="detail-section">
+                                    <h4><i class="fas fa-edit"></i> Змінити статус</h4>
+                                    <div class="detail-row">
+                                        <select id="statusSelect" onchange="updateRequestStatus(${request.id}, this.value)">
+                                            <option value="new" ${request.status === 'new' ? 'selected' : ''}>Новий</option>
+                                            <option value="in_progress" ${request.status === 'in_progress' ? 'selected' : ''}>В роботі</option>
+                                            <option value="completed" ${request.status === 'completed' ? 'selected' : ''}>Завершений</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" onclick="updateRequest(${request.id})">Зберегти зміни</button>
+                            <button class="btn btn-secondary" onclick="closeRequestModal()">Закрити</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const oldModal = document.getElementById('requestModal');
+            if (oldModal) oldModal.remove();
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+        }
+
+        async function updateRequestStatus(id, status) {
+            try {
+                const adminNotes = document.querySelector('#requestModal .notes-content')?.textContent || '';
+                const response = await fetch('admin_api.php?action=update_request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        id: id,
+                        status: status,
+                        admin_notes: adminNotes
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    loadDashboardData();
+                    loadPage(currentPage);
+                }
+            } catch (error) {
+                console.error('Помилка:', error);
+            }
+        }
+
+        async function updateRequest(id) {
+            const statusSelect = document.getElementById('statusSelect');
+            await updateRequestStatus(id, statusSelect.value);
+            closeRequestModal();
+        }
+
+        async function loadStatistics() {
+            try {
+                const response = await fetch('admin_api.php?action=get_statistics');
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateStatistics(data.data.overall_stats);
+                    createMonthlyChart(data.data.daily_stats);
+                }
+            } catch (error) {
+                console.error('Помилка:', error);
+            }
+        }
+
+        function updateStatistics(stats) {
+            document.getElementById('totalRequestsStat').textContent = stats.total_requests || 0;
+            document.getElementById('avgResponseStat').textContent = Math.round(stats.avg_response_time || 0);
+            document.getElementById('activeDaysStat').textContent = stats.active_days || 0;
+            document.getElementById('uniqueServicesStat').textContent = stats.unique_services || 0;
+        }
+
+        function getStatusFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('status');
+        }
+
+        function getServiceName(service) {
+            const services = {
+                'consultation': 'Консультація',
+                'measurement': 'Заміри',
+                'installation': 'Монтаж',
+                'repair': 'Ремонт',
+                'windows': 'Купівля вікон',
+                'other': 'Інше'
+            };
+            return services[service] || service;
+        }
+
+        function getWindowTypeName(type) {
+            const types = {
+                'standard': 'Стандартне',
+                'premium': 'Преміум',
+                'wooden': 'Дерев\'яне',
+                'aluminum': 'Алюмінієве',
+                'panoramic': 'Панорамне',
+                'not_selected': 'Не вибрано'
+            };
+            return types[type] || type;
+        }
+
+        function getStatusName(status) {
+            const statuses = {
+                'new': 'Новий',
+                'in_progress': 'В роботі',
+                'completed': 'Завершений'
+            };
+            return statuses[status] || status;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('uk-UA', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function loadPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+            
+            const pageElement = document.getElementById(page + 'Page');
+            const menuLink = document.querySelector(`[data-page="${page}"]`);
+            
+            if (pageElement) {
+                pageElement.classList.add('active');
+                currentPage = page;
+                updatePageTitle(page);
+                
+                if (menuLink) menuLink.classList.add('active');
+                
+                switch(page) {
+                    case 'dashboard':
+                        loadDashboardData();
+                        break;
+                    case 'requests':
+                        displayAllRequests();
+                        break;
+                    case 'new-requests':
+                        displayRequestsByStatus('new');
+                        break;
+                    case 'in-progress':
+                        displayRequestsByStatus('in_progress');
+                        break;
+                    case 'completed':
+                        displayRequestsByStatus('completed');
+                        break;
+                    case 'statistics':
+                        loadStatistics();
+                        break;
+                }
+            }
+        }
+
+        function searchRequests(query) {
+            const table = document.querySelector('.data-table tbody');
+            if (!table) return;
+            
+            const rows = table.querySelectorAll('tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(query.toLowerCase()) ? '' : 'none';
+            });
+        }
+
+        function changePage(page) {
+            if (currentPage === 'requests') {
+                displayAllRequests();
+            } else {
+                displayRequestsByStatus(currentPage === 'new-requests' ? 'new' : 
+                                      currentPage === 'in-progress' ? 'in_progress' : 'completed');
+            }
+        }
+
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('collapsed');
+        }
+
+        function updatePageTitle(page) {
+            const titles = {
+                'dashboard': 'Дашборд',
+                'requests': 'Всі заявки',
+                'new-requests': 'Нові заявки',
+                'in-progress': 'В роботі',
+                'completed': 'Завершені',
+                'statistics': 'Статистика'
+            };
+            
+            document.getElementById('pageTitle').textContent = titles[page] || 'Панель';
+            document.getElementById('pageBreadcrumb').textContent = titles[page] || 'Панель';
+        }
+
+        function logout() {
+            if (confirm('Ви впевнені, що хочете вийти?')) {
+                window.location.href = 'logout.php';
+            }
+        }
+
+        function closeRequestModal() {
+            const modal = document.getElementById('requestModal');
+            if (modal) modal.remove();
+        }
+
+        function createCharts(dailyData, serviceData) {
+            const requestsChartCtx = document.getElementById('requestsChart').getContext('2d');
+            
+            const dates = dailyData.map(item => {
+                const date = new Date(item.date);
+                return `${date.getDate()}.${date.getMonth() + 1}`;
+            });
+            
+            const counts = dailyData.map(item => item.count);
+            
+            new Chart(requestsChartCtx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Кількість заявок',
+                        data: counts,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+
+            const servicesChartCtx = document.getElementById('servicesChart').getContext('2d');
+            
+            const serviceLabels = serviceData.map(item => getServiceName(item.service));
+            const serviceCounts = serviceData.map(item => item.count);
+            
+            const serviceColors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+            
+            new Chart(servicesChartCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: serviceLabels,
+                    datasets: [{
+                        data: serviceCounts,
+                        backgroundColor: serviceColors,
+                        borderWidth: 1,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function createMonthlyChart(dailyStats) {
+            const ctx = document.getElementById('monthlyStatsChart').getContext('2d');
+            
+            const dates = dailyStats.map(item => {
+                const date = new Date(item.date);
+                return `${date.getDate()}.${date.getMonth() + 1}`;
+            });
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: 'Нові',
+                            data: dailyStats.map(item => item.new || 0),
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                            borderColor: '#3b82f6',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'В роботі',
+                            data: dailyStats.map(item => item.in_progress || 0),
+                            backgroundColor: 'rgba(245, 158, 11, 0.7)',
+                            borderColor: '#f59e0b',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Завершені',
+                            data: dailyStats.map(item => item.completed || 0),
+                            backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                            borderColor: '#10b981',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+            setupMobileMenu();
+        });
+
+        function setupMobileMenu() {
+            const menuToggle = document.createElement('button');
+            menuToggle.className = 'mobile-menu-toggle';
+            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            menuToggle.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 999;
+                width: 44px;
+                height: 44px;
+                border-radius: 12px;
+                background: white;
+                border: 1px solid #e2e8f0;
+                color: #475569;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                transition: all 0.3s ease;
+                display: none;
+            `;
+            
+            menuToggle.addEventListener('click', () => {
+                document.querySelector('.sidebar').classList.toggle('active');
+            });
+            
+            document.body.appendChild(menuToggle);
+            
+            if (window.innerWidth <= 768) {
+                menuToggle.style.display = 'flex';
+            }
+            
+            window.addEventListener('resize', () => {
+                menuToggle.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>

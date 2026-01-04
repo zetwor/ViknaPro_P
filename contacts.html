@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакти | Вікна Престиж</title>
+    <meta name="description" content="Контактна інформація, соціальні мережі, карта проїзду. Зв'яжіться з нами будь-яким зручним способом.">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="contacts.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪟</text></svg>">
+    
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-content">
+            <div class="window-loader">
+                <div class="window-frame">
+                    <div class="window-glass"></div>
+                </div>
+            </div>
+            <p class="loading-text">Вікна Престиж</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo-section">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-window-maximize"></i>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-main">ВІКНА</span>
+                            <span class="logo-sub">ПРЕСТИЖ</span>
+                        </div>
+                    </a>
+                    <div class="logo-tagline">Провідний виробник вікон</div>
+                </div>
+
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Головна</a></li>
+                    <li><a href="services.html" class="nav-link"><i class="fas fa-th-large"></i> Послуги</a></li>
+                    <li><a href="process.html" class="nav-link"><i class="fas fa-list-ol"></i> Етапи робіт</a></li>
+                    <li><a href="contacts.html" class="nav-link active"><i class="fas fa-address-book"></i> Контакти</a></li>
+                    <li><a href="feedback.html" class="nav-link btn-nav"><i class="fas fa-comment-dots"></i> Зворотній зв'язок</a></li>
+                </ul>
+
+                <div class="header-actions">
+                    <a href="tel:+380961234567" class="phone-call">
+                        <i class="fas fa-phone-alt"></i>
+                        <div class="phone-info">
+                            <span class="phone-label">Дзвінок безкоштовно</span>
+                            <span class="phone-number">+38 (096) 123-45-67</span>
+                        </div>
+                    </a>
+                    <button class="btn btn-primary header-btn" onclick="window.location.href='feedback.html'">
+                        <i class="fas fa-calculator"></i> Розрахувати
+                    </button>
+                </div>
+
+                <button class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <h1>Контакти</h1>
+                <p>Зв'яжіться з нами будь-яким зручним способом</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Info -->
+    <section class="contact-info-section">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Contact Details -->
+                <div class="contact-details">
+                    <div class="contact-block">
+                        <h2><i class="fas fa-map-marker-alt"></i> Наша адреса</h2>
+                        <div class="address-info">
+                            <p class="address-main">м. Київ, вул. Хрещатик, 44</p>
+                            <p class="address-note">Офіс та виробничий цех</p>
+                            <button class="btn-map" onclick="showOnMap()">
+                                <i class="fas fa-directions"></i> Прокласти маршрут
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="contact-block">
+                        <h2><i class="fas fa-phone"></i> Телефони</h2>
+                        <div class="phones-grid">
+                            <div class="phone-item">
+                                <div class="phone-label">Гаряча лінія</div>
+                                <a href="tel:+380961234567" class="phone-number">+38 (096) 123-45-67</a>
+                                <div class="phone-hours">Щодня: 8:00 - 22:00</div>
+                            </div>
+                            <div class="phone-item">
+                                <div class="phone-label">Відділ продажів</div>
+                                <a href="tel:+380971234567" class="phone-number">+38 (097) 123-45-67</a>
+                                <div class="phone-hours">Пн-Пт: 9:00 - 18:00</div>
+                            </div>
+                            <div class="phone-item">
+                                <div class="phone-label">Технічна підтримка</div>
+                                <a href="tel:+380931234567" class="phone-number">+38 (093) 123-45-67</a>
+                                <div class="phone-hours">Цілодобово</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-block">
+                        <h2><i class="fas fa-envelope"></i> Електронна пошта</h2>
+                        <div class="emails-grid">
+                            <div class="email-item">
+                                <div class="email-label">Загальні питання</div>
+                                <a href="mailto:info@vknaprestig.com" class="email-address">info@vknaprestig.com</a>
+                            </div>
+                            <div class="email-item">
+                                <div class="email-label">Комерційні пропозиції</div>
+                                <a href="mailto:sales@vknaprestig.com" class="email-address">sales@vknaprestig.com</a>
+                            </div>
+                            <div class="email-item">
+                                <div class="email-label">Технічна підтримка</div>
+                                <a href="mailto:support@vknaprestig.com" class="email-address">support@vknaprestig.com</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-block">
+                        <h2><i class="fas fa-clock"></i> Графік роботи</h2>
+                        <div class="schedule">
+                            <div class="schedule-item">
+                                <span class="day">Понеділок - П'ятниця</span>
+                                <span class="time">8:00 - 20:00</span>
+                            </div>
+                            <div class="schedule-item">
+                                <span class="day">Субота</span>
+                                <span class="time">9:00 - 18:00</span>
+                            </div>
+                            <div class="schedule-item">
+                                <span class="day">Неділя</span>
+                                <span class="time">10:00 - 16:00</span>
+                            </div>
+                            <div class="schedule-note">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Виїзд майстра за попереднім записом</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper">
+                    <div class="contact-form-card">
+                        <h2>Напишіть нам</h2>
+                        <p class="form-subtitle">Ми відповімо протягом 1 години</p>
+                        
+                        <form id="contactForm" class="contact-form">
+                            <div class="form-group">
+                                <label for="contactName">
+                                    <i class="fas fa-user"></i> Ваше ім'я
+                                </label>
+                                <input type="text" id="contactName" name="name" placeholder="Введіть ваше ім'я" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contactPhone">
+                                    <i class="fas fa-phone"></i> Телефон
+                                </label>
+                                <input type="tel" id="contactPhone" name="phone" placeholder="+38 (0__) ___-__-__" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contactEmail">
+                                    <i class="fas fa-envelope"></i> Email
+                                </label>
+                                <input type="email" id="contactEmail" name="email" placeholder="your@email.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contactSubject">
+                                    <i class="fas fa-tag"></i> Тема повідомлення
+                                </label>
+                                <select id="contactSubject" name="subject">
+                                    <option value="">Оберіть тему</option>
+                                    <option value="consultation">Консультація</option>
+                                    <option value="measurement">Заміри</option>
+                                    <option value="order">Замовлення</option>
+                                    <option value="support">Техпідтримка</option>
+                                    <option value="other">Інше</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contactMessage">
+                                    <i class="fas fa-comment"></i> Повідомлення
+                                </label>
+                                <textarea id="contactMessage" name="message" placeholder="Ваше повідомлення..." rows="5"></textarea>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary btn-xl">
+                                    <i class="fas fa-paper-plane"></i> Надіслати повідомлення
+                                </button>
+                                <div class="form-note">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>Ваші дані захищені</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Ми на карті</h2>
+                <p class="section-subtitle">Знайдіть нас найшвидшим шляхом</p>
+            </div>
+            
+            <div class="map-container">
+                <div id="map"></div>
+                <div class="map-overlay">
+                    <div class="map-info">
+                        <h3>Вікна Престиж</h3>
+                        <p>м. Київ, вул. Хрещатик, 44</p>
+                        <div class="map-contacts">
+                            <div><i class="fas fa-phone"></i> +38 (096) 123-45-67</div>
+                            <div><i class="fas fa-clock"></i> Пн-Нд: 8:00 - 20:00</div>
+                        </div>
+                        <button class="btn btn-primary" onclick="getDirections()">
+                            <i class="fas fa-route"></i> Маршрут
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Networks -->
+    <section class="social-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Ми в соціальних мережах</h2>
+                <p class="section-subtitle">Підписуйтесь та будьте в курсі новин</p>
+            </div>
+            
+            <div class="social-grid">
+                <a href="#" class="social-card facebook">
+                    <div class="social-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="social-content">
+                        <h3>Facebook</h3>
+                        <p>Новини, акції, відгуки</p>
+                        <div class="social-stats">
+                            <i class="fas fa-users"></i>
+                            <span>5.2K підписників</span>
+                        </div>
+                    </div>
+                    <div class="social-action">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+                
+                <a href="#" class="social-card instagram">
+                    <div class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <div class="social-content">
+                        <h3>Instagram</h3>
+                        <p>Фото робіт, відео, Stories</p>
+                        <div class="social-stats">
+                            <i class="fas fa-users"></i>
+                            <span>8.7K підписників</span>
+                        </div>
+                    </div>
+                    <div class="social-action">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+                
+                <a href="#" class="social-card telegram">
+                    <div class="social-icon">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <div class="social-content">
+                        <h3>Telegram</h3>
+                        <p>Швидкі повідомлення, акції</p>
+                        <div class="social-stats">
+                            <i class="fas fa-users"></i>
+                            <span>3.1K учасників</span>
+                        </div>
+                    </div>
+                    <div class="social-action">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+                
+                <a href="#" class="social-card youtube">
+                    <div class="social-icon">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <div class="social-content">
+                        <h3>YouTube</h3>
+                        <p>Відеоінструкції, огляди</p>
+                        <div class="social-stats">
+                            <i class="fas fa-users"></i>
+                            <span>12K підписників</span>
+                        </div>
+                    </div>
+                    <div class="social-action">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+                
+                <a href="#" class="social-card tiktok">
+                    <div class="social-icon">
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                    <div class="social-content">
+                        <h3>TikTok</h3>
+                        <p>Короткі відео, лайфхаки</p>
+                        <div class="social-stats">
+                            <i class="fas fa-users"></i>
+                            <span>15.3K підписників</span>
+                        </div>
+                    </div>
+                    <div class="social-action">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+                
+                <a href="#" class="social-card viber">
+                    <div class="social-icon">
+                        <i class="fab fa-viber"></i>
+                    </div>
+                    <div class="social-content">
+                        <h3>Viber спільнота</h3>
+                        <p>Чат з менеджерами</p>
+                        <div class="social-stats">
+                            <i class="fas fa-users"></i>
+                            <span>2.4K учасників</span>
+                        </div>
+                    </div>
+                    <div class="social-action">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Messengers -->
+    <section class="messengers-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Миттєві месенджери</h2>
+                <p class="section-subtitle">Напишіть нам прямо зараз</p>
+            </div>
+            
+            <div class="messengers-grid">
+                <a href="https://wa.me/380961234567" class="messenger-card whatsapp" target="_blank">
+                    <div class="messenger-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div class="messenger-content">
+                        <h3>WhatsApp</h3>
+                        <p>Відповідь за 5 хвилин</p>
+                        <span class="messenger-status online">
+                            <i class="fas fa-circle"></i> Онлайн
+                        </span>
+                    </div>
+                </a>
+                
+                <a href="viber://chat?number=+380961234567" class="messenger-card viber" target="_blank">
+                    <div class="messenger-icon">
+                        <i class="fab fa-viber"></i>
+                    </div>
+                    <div class="messenger-content">
+                        <h3>Viber</h3>
+                        <p>Дзвінки та повідомлення</p>
+                        <span class="messenger-status online">
+                            <i class="fas fa-circle"></i> Онлайн
+                        </span>
+                    </div>
+                </a>
+                
+                <a href="https://t.me/vknaprestig" class="messenger-card telegram" target="_blank">
+                    <div class="messenger-icon">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <div class="messenger-content">
+                        <h3>Telegram</h3>
+                        <p>Швидка відповідь</p>
+                        <span class="messenger-status online">
+                            <i class="fas fa-circle"></i> Онлайн
+                        </span>
+                    </div>
+                </a>
+                
+                <a href="https://m.me/vknaprestig" class="messenger-card messenger" target="_blank">
+                    <div class="messenger-icon">
+                        <i class="fab fa-facebook-messenger"></i>
+                    </div>
+                    <div class="messenger-content">
+                        <h3>Messenger</h3>
+                        <p>Повідомлення в Facebook</p>
+                        <span class="messenger-status online">
+                            <i class="fas fa-circle"></i> Онлайн
+                        </span>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="messenger-note">
+                <i class="fas fa-info-circle"></i>
+                <span>Відповідаємо у будь-який час з 8:00 до 22:00</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Як з нами зв'язатися?</h2>
+                <p class="section-subtitle">Відповіді на часті запитання</p>
+            </div>
+            
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Який найшвидший спосіб зв'язку?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Найшвидше - дзвінок на гарячу лінію <strong>+38 (096) 123-45-67</strong> або WhatsApp. Відповідь протягом 5 хвилин.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Чи є виїзд майстра у вихідні?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Так, виїзд майстра можливий у суботу та неділю за попереднім записом.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Де можна переглянути зразки вікон?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>У нашому шоу-румі за адресою вул. Хрещатик, 44. Працюємо з 8:00 до 20:00 щодня.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Чи працюєте ви по всій Україні?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Так, ми працюємо по всій Україні. Доставка вікон - по всій території країни.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="footer-logo">
+                        <i class="fas fa-window-maximize"></i>
+                        <div>
+                            <span class="footer-logo-main">ВІКНА</span>
+                            <span class="footer-logo-sub">ПРЕСТИЖ</span>
+                        </div>
+                    </a>
+                    <p class="footer-about">
+                        Провідний виробник та монтажник металопластикових вікон з 2010 року. 
+                        Якість, надійність та гарантія на всі види робіт.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Навігація</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Головна</a></li>
+                        <li><a href="services.html"><i class="fas fa-chevron-right"></i> Послуги</a></li>
+                        <li><a href="process.html"><i class="fas fa-chevron-right"></i> Етапи робіт</a></li>
+                        <li><a href="contacts.html" class="active"><i class="fas fa-chevron-right"></i> Контакти</a></li>
+                        <li><a href="feedback.html"><i class="fas fa-chevron-right"></i> Зворотній зв'язок</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Контакти</h3>
+                    <div class="footer-contacts">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>м. Київ, вул. Хрещатик, 44</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+380961234567">+38 (096) 123-45-67</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:info@vknaprestig.com">info@vknaprestig.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Пн. - Нд.: 8:00 - 20:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Підписка на новини</h3>
+                    <p class="footer-subscribe">Отримуйте акції та корисні поради</p>
+                    <div class="subscribe-form">
+                        <input type="email" placeholder="Ваш email" id="subscribe-email-contacts">
+                        <button class="btn btn-primary" onclick="subscribeNewsletterContacts()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    &copy; 2024 Вікна Престиж. Всі права захищені.
+                </div>
+                <div class="footer-legal">
+                    <a href="#">Політика конфіденційності</a>
+                    <a href="#">Договір оферти</a>
+                    <a href="admin.html" class="admin-link"><i class="fas fa-lock"></i> Адмін-панель</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div class="modal success-modal" id="successModal">
+        <div class="modal-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Повідомлення надіслано!</h3>
+            <p>Ми відповімо вам протягом 1 години</p>
+            <button class="btn btn-primary" onclick="closeSuccessModal()">OK</button>
+        </div>
+    </div>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+    <script src="contacts.js"></script>
+</body>
+</html>

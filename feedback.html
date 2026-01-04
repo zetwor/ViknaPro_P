@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Зворотній зв'язок | Вікна Престиж</title>
+    <meta name="description" content="Залиште заявку на розрахунок вартості, заміри або консультацію. Ми зв'яжемося з вами найближчим часом.">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="feedback.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪟</text></svg>">
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-content">
+            <div class="window-loader">
+                <div class="window-frame">
+                    <div class="window-glass"></div>
+                </div>
+            </div>
+            <p class="loading-text">Вікна Престиж</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo-section">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-window-maximize"></i>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-main">ВІКНА</span>
+                            <span class="logo-sub">ПРЕСТИЖ</span>
+                        </div>
+                    </a>
+                    <div class="logo-tagline">Провідний виробник вікон</div>
+                </div>
+
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Головна</a></li>
+                    <li><a href="services.html" class="nav-link"><i class="fas fa-th-large"></i> Послуги</a></li>
+                    <li><a href="process.html" class="nav-link"><i class="fas fa-list-ol"></i> Етапи робіт</a></li>
+                    <li><a href="contacts.html" class="nav-link"><i class="fas fa-address-book"></i> Контакти</a></li>
+                    <li><a href="feedback.html" class="nav-link active btn-nav"><i class="fas fa-comment-dots"></i> Зворотній зв'язок</a></li>
+                </ul>
+
+                <div class="header-actions">
+                    <a href="tel:+380961234567" class="phone-call">
+                        <i class="fas fa-phone-alt"></i>
+                        <div class="phone-info">
+                            <span class="phone-label">Дзвінок безкоштовно</span>
+                            <span class="phone-number">+38 (096) 123-45-67</span>
+                        </div>
+                    </a>
+                    <button class="btn btn-primary header-btn" onclick="scrollToForm()">
+                        <i class="fas fa-pen-alt"></i> Залишити заявку
+                    </button>
+                </div>
+
+                <button class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <h1>Зворотній зв'язок</h1>
+                <p>Залиште заявку та отримайте безкоштовну консультацію</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Form -->
+    <section class="feedback-section" id="feedbackForm">
+        <div class="container">
+            <div class="feedback-grid">
+                <!-- Form -->
+                <div class="feedback-form-wrapper">
+                    <div class="form-header">
+                        <h2>Залишити заявку</h2>
+                        <p>Заповніть форму і ми зв'яжемося з вами протягом 15 хвилин</p>
+                    </div>
+
+                    <form id="feedbackFormElement" action="submit_feedback.php" method="POST" class="feedback-form">
+                        <input type="hidden" name="form_type" value="feedback">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="feedbackName">
+                                    <i class="fas fa-user"></i> Ваше ім'я *
+                                </label>
+                                <input type="text" id="feedbackName" name="name" placeholder="Введіть ваше ім'я" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="feedbackPhone">
+                                    <i class="fas fa-phone"></i> Телефон *
+                                </label>
+                                <input type="tel" id="feedbackPhone" name="phone" placeholder="+38 (0__) ___-__-__" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="feedbackEmail">
+                                    <i class="fas fa-envelope"></i> Email
+                                </label>
+                                <input type="email" id="feedbackEmail" name="email" placeholder="your@email.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="feedbackService">
+                                    <i class="fas fa-tools"></i> Послуга *
+                                </label>
+                                <select id="feedbackService" name="service" required>
+                                    <option value="">Оберіть послугу</option>
+                                    <option value="consultation">Консультація</option>
+                                    <option value="measurement">Заміри вікон</option>
+                                    <option value="installation">Монтаж вікон</option>
+                                    <option value="repair">Ремонт вікон</option>
+                                    <option value="windows">Купівля вікон</option>
+                                    <option value="other">Інше</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="feedbackWindowType">
+                                <i class="fas fa-window-maximize"></i> Тип вікна
+                            </label>
+                            <select id="feedbackWindowType" name="window_type">
+                                <option value="">Оберіть тип вікна</option>
+                                <option value="standard">Стандартне вікно</option>
+                                <option value="premium">Преміум вікно</option>
+                                <option value="wooden">Дерев'яне вікно</option>
+                                <option value="aluminum">Алюмінієве вікно</option>
+                                <option value="panoramic">Панорамне вікно</option>
+                                <option value="not_selected">Ще не визначився</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="feedbackMessage">
+                                <i class="fas fa-comment"></i> Додаткова інформація
+                            </label>
+                            <textarea id="feedbackMessage" name="message" placeholder="Опишіть ваші побажання, задайте питання..." rows="4"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="call_time_morning" value="1">
+                                <span>Зручний час дзвінка: 9:00 - 12:00</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="call_time_day" value="1">
+                                <span>Зручний час дзвінка: 12:00 - 16:00</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="call_time_evening" value="1">
+                                <span>Зручний час дзвінка: 16:00 - 20:00</span>
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label required">
+                                <input type="checkbox" name="privacy_policy" value="1" required>
+                                <span>Я погоджуюсь з обробкою персональних даних *</span>
+                            </label>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-xl">
+                                <i class="fas fa-paper-plane"></i> Надіслати заявку
+                            </button>
+                            <div class="form-note">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Ваші дані захищені. Ми не передаємо інформацію третім особам.</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Info Sidebar -->
+                <div class="feedback-info">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Швидка відповідь</h3>
+                        <p>Ми зв'язуємося з клієнтами протягом 15 хвилин після отримання заявки</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3>Професійна консультація</h3>
+                        <p>Наші менеджери мають понад 5 років досвіду роботи з віконними системами</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3>Точний розрахунок</h3>
+                        <p>Розраховуємо вартість з урахуванням усіх деталей та особливостей</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <h3>Подарунок за заявку</h3>
+                        <p>Кожен клієнт, який залишив заявку, отримує знижку 5% на перше замовлення</p>
+                    </div>
+                    
+                    <div class="statistics">
+                        <div class="stat-item">
+                            <div class="stat-number">98%</div>
+                            <div class="stat-label">клієнтів рекомендують</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">15хв</div>
+                            <div class="stat-label">середній час відповіді</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">5000+</div>
+                            <div class="stat-label">обслугованих клієнтів</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Other Contact Methods -->
+    <section class="contact-methods">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Інші способи зв'язку</h2>
+                <p class="section-subtitle">Оберіть найзручніший для вас спосіб</p>
+            </div>
+            
+            <div class="methods-grid">
+                <div class="method-card phone">
+                    <div class="method-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="method-content">
+                        <h3>Телефонний дзвінок</h3>
+                        <p>Найшвидший спосіб отримати відповідь</p>
+                        <a href="tel:+380961234567" class="method-link">
+                            <i class="fas fa-phone"></i> +38 (096) 123-45-67
+                        </a>
+                        <div class="method-hours">Щодня: 8:00 - 22:00</div>
+                    </div>
+                </div>
+                
+                <div class="method-card whatsapp">
+                    <div class="method-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div class="method-content">
+                        <h3>WhatsApp</h3>
+                        <p>Миттєві повідомлення та файли</p>
+                        <a href="https://wa.me/380961234567" class="method-link" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Написати в WhatsApp
+                        </a>
+                        <div class="method-status online">
+                            <i class="fas fa-circle"></i> Онлайн
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="method-card email">
+                    <div class="method-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="method-content">
+                        <h3>Електронна пошта</h3>
+                        <p>Для детальних запитів та документації</p>
+                        <a href="mailto:info@vknaprestig.com" class="method-link">
+                            <i class="fas fa-envelope"></i> info@vknaprestig.com
+                        </a>
+                        <div class="method-hours">Відповідь протягом 2 годин</div>
+                    </div>
+                </div>
+                
+                <div class="method-card visit">
+                    <div class="method-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="method-content">
+                        <h3>Особистий візит</h3>
+                        <p>Шоу-рум та консультація на місці</p>
+                        <a href="contacts.html#map" class="method-link">
+                            <i class="fas fa-directions"></i> м. Київ, вул. Хрещатик, 44
+                        </a>
+                        <div class="method-hours">Пн-Нд: 8:00 - 20:00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Часті запитання</h2>
+                <p class="section-subtitle">Відповіді на питання про заявки</p>
+            </div>
+            
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Скільки часу чекати на дзвінок після заявки?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Ми працюємо швидко! 90% заявок обробляються протягом 15 хвилин. У пікові години (10:00-12:00 та 16:00-18:00) час очікування може становити до 30 хвилин.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Чи потрібно платити за заміри?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Ні, виїзд майстра для замірів абсолютно безкоштовний. Ви оплачуєте тільки якщо приймаєте рішення замовити вікна у нас.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Чи можна залишити заявку у вихідний?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Так, ви можете залишати заявки 24/7 через сайт. Заявки, отримані у вихідні, обробляються в понеділок з 9:00 ранку.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Чи потрібні спеціальні знання для заповнення форми?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Ні, досить вказати контактні дані та коротко описати ваш запит. Наш менеджер задасть усі необхідні питання під час дзвінка.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="footer-logo">
+                        <i class="fas fa-window-maximize"></i>
+                        <div>
+                            <span class="footer-logo-main">ВІКНА</span>
+                            <span class="footer-logo-sub">ПРЕСТИЖ</span>
+                        </div>
+                    </a>
+                    <p class="footer-about">
+                        Провідний виробник та монтажник металопластикових вікон з 2010 року. 
+                        Якість, надійність та гарантія на всі види робіт.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Навігація</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Головна</a></li>
+                        <li><a href="services.html"><i class="fas fa-chevron-right"></i> Послуги</a></li>
+                        <li><a href="process.html"><i class="fas fa-chevron-right"></i> Етапи робіт</a></li>
+                        <li><a href="contacts.html"><i class="fas fa-chevron-right"></i> Контакти</a></li>
+                        <li><a href="feedback.html" class="active"><i class="fas fa-chevron-right"></i> Зворотній зв'язок</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Контакти</h3>
+                    <div class="footer-contacts">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>м. Київ, вул. Хрещатик, 44</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+380961234567">+38 (096) 123-45-67</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:info@vknaprestig.com">info@vknaprestig.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Пн. - Нд.: 8:00 - 20:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Підписка на новини</h3>
+                    <p class="footer-subscribe">Отримуйте акції та корисні поради</p>
+                    <div class="subscribe-form">
+                        <input type="email" placeholder="Ваш email" id="subscribe-email-feedback">
+                        <button class="btn btn-primary" onclick="subscribeNewsletterFeedback()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    &copy; 2024 Вікна Престиж. Всі права захищені.
+                </div>
+                <div class="footer-legal">
+                    <a href="#" onclick="showPrivacyPolicy()">Політика конфіденційності</a>
+                    <a href="#" onclick="showPublicOffer()">Договір публічної оферти</a>
+                    <a href="admin.html" class="admin-link"><i class="fas fa-lock"></i> Адмін-панель</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div class="modal success-modal" id="successModal">
+        <div class="modal-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Заявка успішно відправлена!</h3>
+            <p>Наш менеджер зв'яжеться з вами протягом 15 хвилин</p>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="closeSuccessModal()">
+                    <i class="fas fa-check"></i> OK
+                </button>
+                <button class="btn btn-outline" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i> На головну
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div class="modal" id="privacyModal">
+        <div class="modal-content large">
+            <button class="modal-close" onclick="closePrivacyModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h3>Політика конфіденційності</h3>
+            </div>
+            <div class="modal-body">
+                <!-- Privacy policy content -->
+                <p>Тут буде текст політики конфіденційності...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+    <script src="feedback.js"></script>
+</body>
+</html>
